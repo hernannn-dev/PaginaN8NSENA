@@ -1,0 +1,851 @@
+/* =====================================================
+   DEMO IA + N8N
+   Autor: Juan Contreras
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --color-fondo:#0f172a;
+    --color-card:#1e293b;
+    --color-card2:#334155;
+
+    --color-texto:#f8fafc;
+    --color-secundario:#94a3b8;
+
+    --color-verde:#10b981;
+    --color-azul:#3b82f6;
+    --color-morado:#8b5cf6;
+    --color-rojo:#ef4444;
+    --color-amarillo:#f59e0b;
+
+    --borde:rgba(255,255,255,.08);
+
+    --sombra:0 10px 25px rgba(0,0,0,.35);
+
+    --radio:15px;
+
+    --transicion:.35s;
+
+}
+
+body{
+
+    background:var(--color-fondo);
+
+    color:var(--color-texto);
+
+    font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+
+    min-height:100vh;
+
+    padding:30px;
+
+}
+
+/*================ HEADER ================*/
+
+.header{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+.header h1{
+
+    font-size:34px;
+
+    margin-bottom:12px;
+
+    font-weight:700;
+
+}
+
+.header p{
+
+    color:var(--color-secundario);
+
+    font-size:17px;
+
+}
+
+/*================ PIPELINE ================*/
+
+.pipeline{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:35px;
+
+    flex-wrap:wrap;
+
+}
+
+.pipe-step{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    background:var(--color-card);
+
+    border:1px solid var(--borde);
+
+    border-radius:30px;
+
+    padding:10px 18px;
+
+    transition:.4s;
+
+    font-size:14px;
+
+}
+
+.pipe-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#6b7280;
+
+}
+
+.pipe-arrow{
+
+    color:#94a3b8;
+
+    font-size:18px;
+
+}
+
+/* Estados */
+
+.pipe-step.done{
+
+    background:rgba(16,185,129,.15);
+
+    border-color:#10b981;
+
+}
+
+.pipe-step.done .pipe-dot{
+
+    background:#10b981;
+
+}
+
+.pipe-step.active{
+
+    background:rgba(59,130,246,.15);
+
+    border-color:#3b82f6;
+
+    transform:scale(1.05);
+
+}
+
+.pipe-step.active .pipe-dot{
+
+    background:#3b82f6;
+
+}
+
+/*================ LAYOUT ================*/
+
+.layout{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+
+}
+
+/*================ FOOTER ================*/
+
+.footer{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:var(--color-secundario);
+
+    font-size:14px;
+
+}
+
+/*================ RESPONSIVE ================*/
+
+@media(max-width:900px){
+
+.layout{
+
+grid-template-columns:1fr;
+
+}
+
+.pipeline{
+
+flex-direction:column;
+
+}
+
+.pipe-arrow{
+
+transform:rotate(90deg);
+
+}
+
+}
+
+/*=====================================================
+                TARJETAS
+=====================================================*/
+
+.card{
+
+    background:var(--color-card);
+
+    border:1px solid var(--borde);
+
+    border-radius:var(--radio);
+
+    overflow:hidden;
+
+    box-shadow:var(--sombra);
+
+    transition:var(--transicion);
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(16,185,129,.35);
+
+}
+
+.card-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:18px;
+
+    background:var(--color-card2);
+
+    border-bottom:1px solid var(--borde);
+
+}
+
+.card-header h2{
+
+    font-size:18px;
+
+    margin-bottom:4px;
+
+}
+
+.card-header p{
+
+    color:var(--color-secundario);
+
+    font-size:13px;
+
+}
+
+.card-body{
+
+    padding:20px;
+
+}
+
+/*=====================================================
+                ICONOS
+=====================================================*/
+
+.card-icon{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:24px;
+
+    color:white;
+
+}
+
+.green{
+
+    background:#10b981;
+
+}
+
+.blue{
+
+    background:#3b82f6;
+
+}
+
+.purple{
+
+    background:#8b5cf6;
+
+}
+
+.ai{
+
+    background:#10a37f;
+
+}
+
+/*=====================================================
+                FORMULARIO
+=====================================================*/
+
+.field{
+
+    margin-bottom:18px;
+
+}
+
+.field label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#e2e8f0;
+
+}
+
+.field input,
+
+.field textarea{
+
+    width:100%;
+
+    background:#0f172a;
+
+    color:white;
+
+    border:1px solid #334155;
+
+    border-radius:10px;
+
+    padding:13px;
+
+    font-size:15px;
+
+    transition:.3s;
+
+    outline:none;
+
+}
+
+.field textarea{
+
+    resize:vertical;
+
+    min-height:130px;
+
+}
+
+.field input:focus,
+
+.field textarea:focus{
+
+    border-color:#10a37f;
+
+    box-shadow:0 0 15px rgba(16,163,127,.30);
+
+}
+
+/*=====================================================
+                BOTÓN
+=====================================================*/
+
+.btn{
+
+    width:100%;
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.btn-primary{
+
+    background:#10a37f;
+
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:#0d8f70;
+
+    transform:scale(1.02);
+
+}
+
+.btn-primary:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+/*=====================================================
+                PROMPT
+=====================================================*/
+
+.prompt-box{
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    color:#cbd5e1;
+
+    font-family:Consolas, monospace;
+
+    line-height:1.7;
+
+    min-height:180px;
+
+    white-space:pre-wrap;
+
+}
+
+.tech-note{
+
+    margin-top:15px;
+
+    background:rgba(16,163,127,.08);
+
+    border-left:4px solid #10a37f;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    color:#cbd5e1;
+
+    font-size:13px;
+
+}
+
+/*=====================================================
+            RESPUESTA DEL ASISTENTE IA
+=====================================================*/
+
+.response-area{
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    min-height:220px;
+
+    color:#e2e8f0;
+
+    line-height:1.8;
+
+    font-size:15px;
+
+    overflow-y:auto;
+
+    white-space:pre-wrap;
+
+}
+
+.response-area::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.response-area::-webkit-scrollbar-thumb{
+
+    background:#475569;
+
+    border-radius:20px;
+
+}
+
+/*=====================================================
+                CONTADORES
+=====================================================*/
+
+.token-info{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:18px;
+
+    flex-wrap:wrap;
+
+}
+
+.token-chip{
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:10px;
+
+    padding:10px 16px;
+
+    font-size:13px;
+
+    color:#cbd5e1;
+
+}
+
+.token-chip span{
+
+    color:#10a37f;
+
+    font-weight:bold;
+
+}
+
+/*=====================================================
+                BADGES
+=====================================================*/
+
+.status-badge{
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.badge-idle{
+
+    background:#334155;
+
+    color:white;
+
+}
+
+.badge-loading{
+
+    background:#f59e0b;
+
+    color:white;
+
+}
+
+.badge-success{
+
+    background:#10b981;
+
+    color:white;
+
+}
+
+.badge-error{
+
+    background:#ef4444;
+
+    color:white;
+
+}
+
+/*=====================================================
+                CORREO
+=====================================================*/
+
+.email-preview{
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+}
+
+.email-header{
+
+    background:#1e293b;
+
+    padding:18px;
+
+    border-bottom:1px solid #334155;
+
+    line-height:1.8;
+
+}
+
+.email-body{
+
+    padding:20px;
+
+    color:#e2e8f0;
+
+    min-height:180px;
+
+    white-space:pre-wrap;
+
+    line-height:1.8;
+
+}
+
+/*=====================================================
+                MENSAJE ENVIADO
+=====================================================*/
+
+.sent-message{
+
+    display:none;
+
+    margin-top:20px;
+
+    text-align:center;
+
+    background:#10b981;
+
+    color:white;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+}
+
+.sent-message.show{
+
+    display:block;
+
+}
+
+/*=====================================================
+                EFECTO ESCRITURA
+=====================================================*/
+
+.typing{
+
+    border-right:3px solid #10a37f;
+
+    animation:cursor .7s infinite;
+
+}
+
+@keyframes cursor{
+
+    0%{
+
+        border-color:#10a37f;
+
+    }
+
+    50%{
+
+        border-color:transparent;
+
+    }
+
+    100%{
+
+        border-color:#10a37f;
+
+    }
+
+}
+
+/*=====================================================
+                SPINNER
+=====================================================*/
+
+.spinner{
+
+    width:18px;
+
+    height:18px;
+
+    border:3px solid rgba(255,255,255,.2);
+
+    border-top:3px solid #10a37f;
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+    display:inline-block;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/*=====================================================
+                ANIMACIONES
+=====================================================*/
+
+@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.card{
+
+    animation:aparecer .7s ease;
+
+}
+
+/*=====================================================
+                EFECTO HOVER
+=====================================================*/
+
+button:hover{
+
+    box-shadow:0 0 20px rgba(16,163,127,.35);
+
+}
+
+input:hover,
+
+textarea:hover{
+
+    border-color:#10a37f;
+
+}
+
+/*=====================================================
+                RESPONSIVE EXTRA
+=====================================================*/
+
+@media(max-width:600px){
+
+.header h1{
+
+font-size:28px;
+
+}
+
+.card-header{
+
+flex-direction:column;
+
+text-align:center;
+
+}
+
+.token-info{
+
+flex-direction:column;
+
+}
+
+.email-header{
+
+font-size:14px;
+
+}
+
+.response-area{
+
+font-size:14px;
+
+}
+
+}
